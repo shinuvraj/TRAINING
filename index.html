@@ -1,0 +1,214 @@
+
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+#qw{padding:0.5rem 0;font-family:var(--font-sans)}
+.qhdr{background:linear-gradient(135deg,#185FA5 0%,#534AB7 100%);border-radius:14px;padding:14px 16px;margin-bottom:12px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px}
+.qhdr-title{font-size:26px;font-weight:500;color:#fff}
+.sec-pill{font-size:17px;padding:6px 16px;border-radius:20px;font-weight:500;color:#fff}
+.sec-hum{background:#3C3489}
+.sec-wc{background:#0F6E56}
+.prog-row{display:flex;align-items:center;gap:10px;margin-bottom:12px}
+.prog-bg{flex:1;height:10px;background:#D3D1C7;border-radius:5px;overflow:hidden}
+.prog-fill{height:10px;border-radius:5px;background:linear-gradient(90deg,#185FA5,#534AB7);transition:width 0.4s}
+.prog-lbl{font-size:18px;font-weight:500;color:var(--color-text-secondary);min-width:56px;text-align:right}
+.timer-wrap{display:flex;align-items:center;gap:7px}
+.timer-num{font-size:22px;font-weight:500;min-width:34px;color:var(--color-text-primary)}
+.tbar-bg{width:80px;height:10px;background:#D3D1C7;border-radius:5px;overflow:hidden}
+.tbar-fill{height:10px;border-radius:5px;transition:width 1s linear,background 0.4s}
+.qcard{background:var(--color-background-primary);border:0.5px solid var(--color-border-tertiary);border-radius:14px;padding:18px;margin-bottom:12px}
+.qnum{display:inline-block;background:#EEEDFE;color:#3C3489;font-size:16px;font-weight:500;padding:6px 16px;border-radius:20px;margin-bottom:14px}
+.qtext{font-size:24px;font-weight:500;color:var(--color-text-primary);line-height:1.5;margin-bottom:10px;white-space:pre-line}
+.qsub{font-size:21px;color:var(--color-text-secondary);line-height:1.65;margin-bottom:14px;white-space:pre-line}
+.qtbl{width:100%;border-collapse:collapse;font-size:19px;margin-bottom:16px;table-layout:fixed}
+.qtbl th{background:#EEEDFE;color:#3C3489;padding:12px 10px;text-align:left;border:0.5px solid #AFA9EC;font-weight:500}
+.qtbl td{padding:12px 10px;border:0.5px solid var(--color-border-tertiary);color:var(--color-text-primary);line-height:1.45}
+.qtbl tr:nth-child(even) td{background:var(--color-background-secondary)}
+.opts{display:flex;flex-direction:column;gap:12px;margin-top:10px}
+.opt{display:flex;align-items:center;gap:14px;padding:18px 16px;border-radius:12px;border:2px solid var(--color-border-secondary);background:var(--color-background-primary);cursor:pointer;transition:all 0.15s;font-size:21px;color:var(--color-text-primary);text-align:left;width:100%;min-height:64px;line-height:1.4}
+.opt:hover:not(:disabled){border-color:#378ADD;background:#E6F1FB}
+.opt .badge{width:40px;height:40px;min-width:40px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:18px;font-weight:500;flex-shrink:0;background:#F1EFE8;color:#5F5E5A;border:2px solid #D3D1C7}
+.opt.correct{border-color:#3B6D11;background:#EAF3DE;color:#27500A;pointer-events:none}
+.opt.correct .badge{background:#C0DD97;color:#27500A;border-color:#3B6D11}
+.opt.wrong{border-color:#A32D2D;background:#FCEBEB;color:#791F1F;pointer-events:none}
+.opt.wrong .badge{background:#F09595;color:#791F1F;border-color:#A32D2D}
+.opt.disabled-plain{pointer-events:none;opacity:0.45}
+.nav-row{display:flex;align-items:center;justify-content:space-between;margin-top:12px}
+.nbtn{padding:16px 28px;border-radius:12px;font-size:20px;cursor:pointer;border:2px solid var(--color-border-secondary);background:var(--color-background-primary);color:var(--color-text-primary)}
+.nbtn.pri{background:#185FA5;color:#fff;border-color:#185FA5}
+.nbtn.pri:hover{background:#0C447C}
+.nbtn:disabled{opacity:0.35;cursor:default}
+.tmsg{font-size:17px;color:#A32D2D;margin-top:10px;display:flex;align-items:center;gap:6px}
+.result-hdr{background:linear-gradient(135deg,#185FA5 0%,#534AB7 100%);border-radius:14px;padding:1.75rem;text-align:center;margin-bottom:14px}
+.score-big{font-size:64px;font-weight:500;color:#fff;line-height:1}
+.score-sub{font-size:20px;color:#B5D4F4;margin-top:8px}
+.stats-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:14px}
+.stat-box{border-radius:12px;padding:16px 8px;text-align:center}
+.stat-box.c{background:#EAF3DE}.stat-box.w{background:#FCEBEB}.stat-box.s{background:#FAEEDA}
+.stat-num{font-size:32px;font-weight:500}
+.stat-num.c{color:#3B6D11}.stat-num.w{color:#A32D2D}.stat-num.s{color:#854F0B}
+.stat-lbl{font-size:15px;color:var(--color-text-secondary);margin-top:4px}
+.ans-table{width:100%;border-collapse:collapse;font-size:16px}
+.ans-table th{background:#EEEDFE;color:#3C3489;padding:12px 10px;text-align:left;border:0.5px solid #AFA9EC;font-weight:500;font-size:16px}
+.ans-table td{padding:12px 10px;border:0.5px solid var(--color-border-tertiary);vertical-align:top;color:var(--color-text-primary);line-height:1.5}
+.ans-table tr:nth-child(even) td{background:var(--color-background-secondary)}
+.tag{font-size:14px;padding:5px 12px;border-radius:12px;font-weight:500;white-space:nowrap;display:inline-block}
+.tag.ok{background:#EAF3DE;color:#3B6D11}
+.tag.no{background:#FCEBEB;color:#A32D2D}
+.tag.sk{background:#FAEEDA;color:#854F0B}
+.hint{font-size:18px;color:var(--color-text-secondary);display:flex;align-items:center;gap:6px}
+</style>
+
+<h2 style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0,0,0,0)">Social Science quiz 10 questions 1 minute each</h2>
+
+<div id="qw">
+  <div class="qhdr">
+    <span class="qhdr-title"><i class="ti ti-school" aria-hidden="true" style="font-size:24px;margin-right:8px;vertical-align:-3px"></i>Social Science Quiz</span>
+    <span class="sec-pill sec-hum" id="sec-pill">Humanism</span>
+  </div>
+  <div class="prog-row">
+    <div class="prog-bg"><div class="prog-fill" id="prog" style="width:10%"></div></div>
+    <span class="prog-lbl" id="prog-lbl">1 / 10</span>
+    <div class="timer-wrap">
+      <i class="ti ti-clock" style="font-size:22px;color:var(--color-text-secondary)" aria-hidden="true"></i>
+      <span class="timer-num" id="tnum">60</span>
+      <div class="tbar-bg"><div class="tbar-fill" id="tbar" style="width:100%;background:#185FA5"></div></div>
+    </div>
+  </div>
+  <div id="qa"></div>
+</div>
+
+<script>
+const ANS=['a','a','c','a','c','a','a','d','a','d'];
+const SEC=['Humanism','Humanism','Humanism','Humanism','Humanism','Weather and Climate','Weather and Climate','Weather and Climate','Weather and Climate','Weather and Climate'];
+const QS=[
+  {q:"1. Match the following:",tbl:{h:["Column I","Column II"],r:[["(A) Humanism","(i) Printing Press"],["(B) Johannes Gutenberg","(ii) Renaissance City"],["(C) Florence","(iii) Study of classics"],["(D) Leonardo da Vinci","(iv) Mona Lisa"]]},o:["A-(iii), B-(i), C-(ii), D-(iv)","A-(ii), B-(iii), C-(iv), D-(i)","A-(iv), B-(ii), C-(i), D-(iii)","A-(i), B-(iv), C-(iii), D-(ii)"]},
+  {q:"2. Consider the following statements:",sub:"Statement 1: Renaissance began in Italy.\n\nStatement 2: Italy was poor in trade and commerce during the medieval period.",o:["Statement (1) correct, Statement (2) incorrect","Statement (1) incorrect, Statement (2) correct","Both statements are correct","Both statements are incorrect"]},
+  {q:"3. Which is NOT related to Renaissance Humanism?",o:["Importance to individual freedom","Growth of secular ideas","Blind faith in medieval traditions","Development of art and science"]},
+  {q:"4. Arrange in chronological order:\n(A) Renaissance\n(B) French Revolution\n(C) Industrial Revolution\n(D) Reformation",o:["A, D, B, C","D, A, C, B","A, C, D, B","B, C, A, D"]},
+  {q:"5. Which is NOT related to Leonardo da Vinci?",o:["Mona Lisa","The Last Supper","Printing Press","Renaissance Art"]},
+  {q:"6. Match the following:",tbl:{h:["Column I","Column II"],r:[["(A) Conduction","(i) Heat transfer through fluids"],["(B) Convection","(ii) Horizontal movement of heat"],["(C) Advection","(iii) Heat transfer through contact"],["(D) Insolation","(iv) Incoming solar radiation"]]},o:["A-(iii), B-(i), C-(ii), D-(iv)","A-(ii), B-(iii), C-(iv), D-(i)","A-(iv), B-(ii), C-(i), D-(iii)","A-(i), B-(iv), C-(iii), D-(ii)"]},
+  {q:"7. Consider the following statements:",sub:"Statement 1: Weather changes frequently.\n\nStatement 2: Climate refers to atmospheric conditions over a short period.",o:["Statement (1) correct, Statement (2) incorrect","Statement (1) incorrect, Statement (2) correct","Both statements are correct","Both statements are incorrect"]},
+  {q:"8. Which is NOT an element of weather and climate?",o:["Temperature","Humidity","Pressure","Mineral"]},
+  {q:"9. Arrange the correct order of heat transfer:\n(A) Insolation reaches the Earth\n(B) Earth gets heated\n(C) Atmosphere gets heated\n(D) Terrestrial radiation occurs",o:["A, B, D, C","B, A, C, D","D, C, B, A","A, D, B, C"]},
+  {q:"10. Which is NOT related to convectional rainfall?",o:["Occurs due to heating of air","Common in equatorial regions","Also called '4 O'Clock rains'","Caused by snowfall in polar regions"]}
+];
+const LTRS=['a','b','c','d'];
+const LABS=['A','B','C','D'];
+let cur=0,score=0,tv=60,tid=null,done=false;
+let ua=Array(10).fill(null);
+
+function render(){
+  done=false;clearInterval(tid);tv=60;
+  const q=QS[cur];
+  const isWC=cur>=5;
+  document.getElementById('sec-pill').textContent=SEC[cur];
+  document.getElementById('sec-pill').className='sec-pill '+(isWC?'sec-wc':'sec-hum');
+  document.getElementById('prog').style.width=((cur+1)/10*100)+'%';
+  document.getElementById('prog-lbl').textContent=(cur+1)+' / 10';
+  updateT();startT();
+  let h='<div class="qcard">';
+  h+='<span class="qnum">Question '+(cur+1)+' of 10 &nbsp;·&nbsp; 1 mark</span>';
+  h+='<div class="qtext">'+q.q+'</div>';
+  if(q.sub) h+='<div class="qsub">'+q.sub+'</div>';
+  if(q.tbl){
+    h+='<table class="qtbl"><thead><tr>';
+    q.tbl.h.forEach(hh=>h+='<th>'+hh+'</th>');
+    h+='</tr></thead><tbody>';
+    q.tbl.r.forEach(r=>{h+='<tr>';r.forEach(c=>h+='<td>'+c+'</td>');h+='</tr>';});
+    h+='</tbody></table>';
+  }
+  h+='<div class="opts">';
+  q.o.forEach((o,i)=>{
+    h+='<button class="opt" id="o'+i+'" onclick="pick('+i+')">';
+    h+='<span class="badge">'+LABS[i]+'</span><span>'+o+'</span></button>';
+  });
+  h+='</div><div id="tmsg"></div></div>';
+  h+='<div class="nav-row">';
+  h+='<span class="hint"><i class="ti ti-hand-finger" aria-hidden="true" style="font-size:22px"></i>Tap one answer</span>';
+  if(cur<9) h+='<button class="nbtn pri" id="nbtn" onclick="nextQ()" disabled>Next <i class="ti ti-arrow-right" aria-hidden="true"></i></button>';
+  else h+='<button class="nbtn pri" id="nbtn" onclick="showRes()" disabled><i class="ti ti-flag" aria-hidden="true"></i> Finish</button>';
+  h+='</div>';
+  document.getElementById('qa').innerHTML=h;
+}
+
+function pick(i){
+  if(done)return;done=true;clearInterval(tid);
+  ua[cur]=LTRS[i];
+  const ca=ANS[cur];const ci=LTRS.indexOf(ca);
+  if(LTRS[i]===ca)score++;
+  QS[cur].o.forEach((_,j)=>{
+    const b=document.getElementById('o'+j);if(!b)return;
+    b.disabled=true;
+    if(j===ci)b.className='opt correct';
+    else if(j===i)b.className='opt wrong';
+    else b.className='opt disabled-plain';
+  });
+  document.getElementById('nbtn').removeAttribute('disabled');
+}
+
+function timeOut(){
+  done=true;
+  const ci=LTRS.indexOf(ANS[cur]);
+  QS[cur].o.forEach((_,j)=>{
+    const b=document.getElementById('o'+j);if(!b)return;
+    b.disabled=true;
+    if(j===ci)b.className='opt correct';else b.className='opt disabled-plain';
+  });
+  document.getElementById('tmsg').innerHTML='<div class="tmsg"><i class="ti ti-clock" aria-hidden="true"></i> Time\'s up! Correct answer shown in green.</div>';
+  document.getElementById('nbtn').removeAttribute('disabled');
+}
+
+function startT(){
+  tid=setInterval(()=>{tv--;updateT();if(tv<=0){clearInterval(tid);if(!done)timeOut();}},1000);
+}
+
+function updateT(){
+  document.getElementById('tnum').textContent=tv;
+  const bar=document.getElementById('tbar');
+  bar.style.width=(tv/60*100)+'%';
+  bar.style.background=tv>20?'#185FA5':tv>10?'#BA7517':'#A32D2D';
+  document.getElementById('tnum').style.color=tv>20?'var(--color-text-primary)':tv>10?'#633806':'#791F1F';
+}
+
+function nextQ(){cur++;if(cur<10)render();}
+
+function showRes(){
+  clearInterval(tid);
+  let cor=0,wrg=0,skp=0;
+  ua.forEach((a,i)=>{if(!a)skp++;else if(a===ANS[i])cor++;else wrg++;});
+  const pct=Math.round(cor/10*100);
+  let grade='Keep practising';
+  if(pct>=90)grade='Excellent!';else if(pct>=70)grade='Good job!';else if(pct>=50)grade='Not bad!';
+  let h='<div class="result-hdr">';
+  h+='<div style="font-size:18px;color:#B5D4F4;margin-bottom:6px">Final Score</div>';
+  h+='<div class="score-big">'+cor+' <span style="font-size:30px;color:#B5D4F4">/ 10</span></div>';
+  h+='<div class="score-sub">'+pct+'% &nbsp;·&nbsp; '+grade+'</div></div>';
+  h+='<div class="stats-grid">';
+  h+='<div class="stat-box c"><div class="stat-num c">'+cor+'</div><div class="stat-lbl">Correct</div></div>';
+  h+='<div class="stat-box w"><div class="stat-num w">'+wrg+'</div><div class="stat-lbl">Wrong</div></div>';
+  h+='<div class="stat-box s"><div class="stat-num s">'+skp+'</div><div class="stat-lbl">Skipped</div></div>';
+  h+='</div>';
+  h+='<table class="ans-table"><thead><tr><th>Q</th><th>Your answer</th><th>Correct answer</th><th>Result</th></tr></thead><tbody>';
+  QS.forEach((q,i)=>{
+    const ca=ANS[i];const ci=LTRS.indexOf(ca);
+    const ctxt='('+ca.toUpperCase()+') '+q.o[ci];
+    let utxt='—',tag='<span class="tag sk">Skipped</span>';
+    if(ua[i]){const ui=LTRS.indexOf(ua[i]);utxt='('+ua[i].toUpperCase()+') '+q.o[ui];tag=ua[i]===ca?'<span class="tag ok">✓ Correct</span>':'<span class="tag no">✗ Wrong</span>';}
+    h+='<tr><td style="font-weight:500">Q'+(i+1)+'</td><td>'+utxt+'</td><td style="color:#3B6D11">'+ctxt+'</td><td>'+tag+'</td></tr>';
+  });
+  h+='</tbody></table>';
+  h+='<div style="text-align:center;margin-top:1.25rem"><button class="nbtn pri" onclick="restart()"><i class="ti ti-refresh" aria-hidden="true"></i> Restart Quiz</button></div>';
+  document.getElementById('qa').innerHTML=h;
+  document.getElementById('qw').querySelector('.qhdr').style.display='none';
+  document.getElementById('qw').querySelector('.prog-row').style.display='none';
+}
+
+function restart(){
+  cur=0;score=0;tv=60;ua=Array(10).fill(null);done=false;
+  const hdr=document.getElementById('qw').querySelector('.qhdr');
+  const pr=document.getElementById('qw').querySelector('.prog-row');
+  if(hdr)hdr.style.display='';if(pr)pr.style.display='';
+  render();
+}
+render();
+</script>
